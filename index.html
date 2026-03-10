@@ -1,1 +1,54 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Interface</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css" type="text/css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <div class="header">
+            <div class="map-title">Map Title</div>
+            <div class="search-container">Search Bar 🔍</div>
+            <div class="nav-container">Nav Bar</div>
+        </div>
+
+        <div class="content-body">
+            <div class="side-panel">
+            <div class="sidebar-label">Side Bar</div>
+            
+            <button class="layer-btn">Green Spaces</button>
+            <button class="layer-btn">Green Streets</button>
+            <button class="layer-btn">Green Roofs</button>
+
+            <div class="temp-index-box">
+                <div class="temp-title">Temperature Index</div>
+                <ol class="temp-list">
+                    <li>Index</li>
+                    <li>Index</li>
+                    <li>Index</li>
+                </ol>
+            </div>
+
+            <button class="export-btn">Export</button>
+        </div>
+
+            <div class="map-box">
+                <div id="my-map"></div>
+            </div>
+        </div>
+
+        <div class="legend-area">
+            <p>Legend</p>
+        </div>
+    </div>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
+    <script src="script-expressions.js"></script>
+</body>
+</html>
