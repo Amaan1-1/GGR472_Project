@@ -118,3 +118,60 @@ body {
     font-size: 12px;
     margin-top: 10px;
 }
+
+.map-box {
+    position: relative;
+    flex-grow: 1;
+    border: 1px solid #ccc;
+}
+
+.map-controls {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ctrl-btn {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    width: 100px;
+}
+
+.legend-area {
+    margin-left: 235px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.legend-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.legend-items {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.icon-placeholder {
+    font-size: 24px;
+}
