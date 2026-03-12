@@ -175,3 +175,49 @@ body {
 .icon-placeholder {
     font-size: 24px;
 }
+
+/* Interactive Hover Effects */
+.layer-btn:hover, .ctrl-btn:hover, .export-btn:hover {
+    background-color: #555;
+    transition: background-color 0.2s ease;
+}
+
+.layer-btn:active {
+    background-color: #222;
+    transform: translateY(1px);
+}
+
+/* Search Bar & Nav Refinement */
+.search-container {
+    width: 400px;
+    text-align: center;
+    color: #888;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+.nav-container {
+    min-width: 150px;
+    text-align: center;
+    color: #888;
+}
+
+/* Side Panel List Alignment */
+.temp-list {
+    margin: 0;
+    padding-left: 35px;
+    line-height: 1.8;
+}
+
+.temp-list li {
+    margin-bottom: 5px;
+}
+
+/* Final Layout Smoothing */
+.app-wrapper {
+    min-height: 800px;
+}
+
+.legend-area {
+    margin-top: 10px;
+}
