@@ -14,41 +14,79 @@
     <div class="app-wrapper">
         <div class="header">
             <div class="map-title">Map Title</div>
-            <div class="search-container">Search Bar 🔍</div>
-            <div class="nav-container">Nav Bar</div>
+            <div id="geocoder" class="search-container">Search Bar 🔍</div>
+            <nav class="navbar">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="sources.html" class="nav-link">Sources</a>
+            </nav>
         </div>
 
         <div class="content-body">
             <div class="side-panel">
-            <div class="sidebar-label">Side Bar</div>
-            
-            <button class="layer-btn">Green Spaces</button>
-            <button class="layer-btn">Green Streets</button>
-            <button class="layer-btn">Green Roofs</button>
+                <div class="sidebar-label">Side Bar</div>
+                
+                <button id="btn-spaces" class="layer-btn">Green Spaces</button>
+                <button id="btn-streets" class="layer-btn">Green Streets</button>
+                <button id="btn-roofs" class="layer-btn">Green Roofs</button>
 
-            <div class="temp-index-box">
-                <div class="temp-title">Temperature Index</div>
-                <ol class="temp-list">
-                    <li>Index</li>
-                    <li>Index</li>
-                    <li>Index</li>
-                </ol>
+                <div class="temp-index-box">
+                    <form>
+                        <fieldset id="boundaryfieldset" style="border: none; padding: 0;">
+                            <label class="option-label" style="display: block; font-size: 13px; margin-bottom: 10px;">Temperature Index</label>
+                            <select id="temp-select" name="temp-select" style="width: 100%; padding: 5px; border-radius: 4px;">
+                                <option value="" disabled selected>Select level...</option>
+                                <option value="high">High Intensity</option>
+                                <option value="moderate">Moderate Intensity</option>
+                                <option value="low">Low Intensity</option>
+                                <option value="all">Show all</option>
+                            </select>
+                        </fieldset>
+                    </form>
+                    
+                    <ol class="temp-list" style="margin-top: 20px;">
+                        <li>Index 1</li>
+                        <li>Index 2</li>
+                        <li>Index 3</li>
+                    </ol>
+                </div>
+
+                <button id="export-map" class="export-btn">Export</button>
             </div>
-
-            <button class="export-btn">Export</button>
-        </div>
 
             <div class="map-box">
                 <div id="my-map"></div>
+                <div class="map-controls">
+                    <button id="reset-btn" class="ctrl-btn">Reset Map View</button>
+                    <button id="zoom-toggle" class="ctrl-btn">Zoom In/out</button>
+                </div>
             </div>
         </div>
 
         <div class="legend-area">
-            <p>Legend</p>
+            <div class="legend-title">Legend</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="icon-placeholder">🛣️</span>
+                    <span>Green Streets</span>
+                </div>
+                <div class="legend-item">
+                    <span class="icon-placeholder">🌳</span>
+                    <span>Green Spaces</span>
+                </div>
+                <div class="legend-item">
+                    <span class="icon-placeholder">🏠</span>
+                    <span>Green Roofs</span>
+                </div>
+                <div class="legend-item">
+                    <span class="icon-placeholder">🌡️</span>
+                    <span>Temperature Index Scale</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
-    <script src="script-expressions.js"></script>
+    <script src="./scripts/script.js"></script>
+    <script src="./scripts/functions.js"></script>
 </body>
 </html>
