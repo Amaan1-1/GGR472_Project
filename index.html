@@ -54,7 +54,8 @@
             </div>
 
             <div class="map-box">
-                <div id="my-map"></div>
+                <div id='map' class='map-container'></div>
+                
                 <div class="map-controls">
                     <button id="reset-btn" class="ctrl-btn">Reset Map View</button>
                     <button id="zoom-toggle" class="ctrl-btn">Zoom In/out</button>
@@ -86,6 +87,7 @@
     </div>
 
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
+    <script src="./scripts/config.js" onerror="this.remove()"></script>
     <script src="./scripts/script.js"></script>
     <script src="./scripts/functions.js"></script>
 </body>
