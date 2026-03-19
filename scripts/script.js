@@ -17,11 +17,11 @@ const map = new mapboxgl.Map({
     zoom: 11 // starting zoom level
 });
 
-let greenSpaces;
+/* let greenSpaces;
 
 fetch('https://raw.githubusercontent.com/ktandory/Lab4/refs/heads/main/data/pedcyc_collision_06-21.geojson')
     .then(response => response.json())
     .then(response => {
         console.log(response); //Check response in console
         collisionData = response; //Store geojson as variable using URL from fetch response
-    })
+    }) */
