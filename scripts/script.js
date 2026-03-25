@@ -17,11 +17,22 @@ const map = new mapboxgl.Map({
     zoom: 11 // starting zoom level
 });
 
-/* let greenSpaces;
+let pointgeojson;
 
-fetch('https://raw.githubusercontent.com/ktandory/Lab4/refs/heads/main/data/pedcyc_collision_06-21.geojson')
-    .then(response => response.json())
-    .then(response => {
-        console.log(response); //Check response in console
-        collisionData = response; //Store geojson as variable using URL from fetch response
-    }) */
+map.on('load', () => {
+    console.log('Map fully loaded');
+    fetch('./data/green_spaces.geojson')
+        .then(response => response.json())
+        .then(data => {
+            map.addSource('points', { type: 'geojson', data });
+            map.addLayer({
+                id: 'points-layer',
+                type: 'circle',
+                source: 'points',
+                paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#cafa08'
+                }
+            });
+        });
+});
