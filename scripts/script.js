@@ -17,22 +17,25 @@ const map = new mapboxgl.Map({
     zoom: 11 // starting zoom level
 });
 
-let pointgeojson;
+let green_spaces;
 
 map.on('load', () => {
-    console.log('Map fully loaded');
-    fetch('./data/green_spaces.geojson')
-        .then(response => response.json())
-        .then(data => {
-            map.addSource('points', { type: 'geojson', data });
-            map.addLayer({
-                id: 'points-layer',
-                type: 'circle',
-                source: 'points',
-                paint: {
-                    'circle-radius': 6,
-                    'circle-color': '#cafa08'
-                }
-            });
+  fetch('./data/green_spaces.geojson')
+    .then(response => response.json())
+    .then(data => {
+        green_spaces = data;
+        map.addSource('green-spaces', {
+            type: 'geojson',
+            data: green_spaces
         });
+        map.addLayer({
+            id: 'green-spaces-layer',
+            type: 'circle',
+            source: 'green-spaces',
+            paint: {
+            'circle-radius': 6,
+            'circle-color': '#cafa08'
+            }
+      });       
+    });
 });
