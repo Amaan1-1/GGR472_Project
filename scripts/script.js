@@ -24,21 +24,27 @@ let green_roofs;
 let green_streets;
 
 map.on('load', () => {
+    const icons = [
+        { name: 'tree-icon', url: './data/tree-fill.svg' },
+        { name: 'house-icon', url: './data/house-fill.svg' },
+        { name: 'signpost-icon', url: './data/signpost-2-fill.svg' }
+        ];
   fetch('./data/green_spaces.geojson')
     .then(response => response.json())
-    .then(data => {
+      .then(data => {
         green_spaces = data;
+        map.addImage("bi bi-tree-fill", image)
         map.addSource('green-spaces', {
             type: 'geojson',
             data: green_spaces
         });
         map.addLayer({
             id: 'green-spaces-layer',
-            type: 'circle',
+            type: 'symbol',
             source: 'green-spaces',
-            paint: {
-            'circle-radius': 6,
-            'circle-color': '#cafa08'
+            layout: {
+            'icon-image': "bi bi-tree-fill",
+            'icon-size': 0.5
             }
       });       
     });
