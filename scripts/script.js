@@ -19,6 +19,10 @@ const map = new mapboxgl.Map({
 
 let green_spaces;
 
+let green_roofs;
+
+let green_streets;
+
 map.on('load', () => {
   fetch('./data/green_spaces.geojson')
     .then(response => response.json())
@@ -38,4 +42,41 @@ map.on('load', () => {
             }
       });       
     });
-});
+
+    fetch('https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_roofs.geojson')
+    .then(response => response.json())
+    .then(data => {
+        green_roofs = data;
+        map.addSource('green-roofs', {
+            type: 'geojson',
+            data: green_roofs
+        });
+        map.addLayer({
+            id: 'green-roofs-layer',
+            type: 'circle',
+            source: 'green-roofs',
+            paint: {
+            'circle-radius': 6,
+            'circle-color': '#fa08d2'
+            }
+      });       
+    });
+    fetch('https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_streets.geojson')
+    .then(response => response.json())
+    .then(data => {
+        green_streets = data;
+        map.addSource('green-streets', {
+            type: 'geojson',
+            data: green_streets
+        });
+        map.addLayer({
+            id: 'green-streets-layer',
+            type: 'circle',
+            source: 'green-streets',
+            paint: {
+            'circle-radius': 6,
+            'circle-color': '#0808fa'
+            }
+      });       
+    });
+}); 
