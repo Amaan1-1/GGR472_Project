@@ -25,64 +25,72 @@ let green_streets;
 
 map.on('load', () => {
     const icons = [
-        { name: 'tree-icon', url: './data/tree-fill.svg' },
-        { name: 'house-icon', url: './data/house-fill.svg' },
-        { name: 'signpost-icon', url: './data/signpost-2-fill.svg' }
+        { name: 'tree-icon', url: './data/tree.png' },
+        { name: 'house-icon', url: './data/house.png' },
+        { name: 'signpost-icon', url: './data/signpost.png' }
         ];
-  fetch('./data/green_spaces.geojson')
-    .then(response => response.json())
-      .then(data => {
-        green_spaces = data;
-        map.addImage("bi bi-tree-fill", image)
-        map.addSource('green-spaces', {
-            type: 'geojson',
-            data: green_spaces
-        });
-        map.addLayer({
-            id: 'green-spaces-layer',
-            type: 'symbol',
-            source: 'green-spaces',
-            layout: {
-            'icon-image': "bi bi-tree-fill",
-            'icon-size': 0.5
-            }
-      });       
-    });
+    //src: https://docs.mapbox.com/mapbox-gl-js/example/add-image/
+    
 
-    fetch('https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_roofs.geojson')
-    .then(response => response.json())
-    .then(data => {
-        green_roofs = data;
-        map.addSource('green-roofs', {
-            type: 'geojson',
-            data: green_roofs
-        });
-        map.addLayer({
-            id: 'green-roofs-layer',
-            type: 'circle',
+    const layers = [
+        {
+            path: './data/green_spaces.geojson',
+            source: 'green-spaces',
+            layer: 'green-spaces-layer',
+            icon: 'tree-icon',
+            size: 0.2
+        },
+        {
+            path: 'https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_roofs.geojson',
             source: 'green-roofs',
-            paint: {
-            'circle-radius': 6,
-            'circle-color': '#fa08d2'
-            }
-      });       
-    });
-    fetch('https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_streets.geojson')
-    .then(response => response.json())
-    .then(data => {
-        green_streets = data;
-        map.addSource('green-streets', {
-            type: 'geojson',
-            data: green_streets
-        });
-        map.addLayer({
-            id: 'green-streets-layer',
-            type: 'circle',
+            layer: 'green-roofs-layer',
+            icon: 'house-icon',
+            size: 0.2
+        },
+        {
+            path: './data/green_streets.geojson',
             source: 'green-streets',
-            paint: {
-            'circle-radius': 6,
-            'circle-color': '#0808fa'
-            }
-      });       
+            layer: 'green-streets-layer',
+            icon: 'signpost-icon',
+            size: 0.2
+        }
+    ];
+
+    let loadedCount = 0;
+
+    icons.forEach(icon => {
+    console.log('⏳ Attempting to load image:', icon.name, icon.url);
+
+    map.loadImage(icon.url, (error, image) => {
+
+        console.log('📥 loadImage callback triggered for:', icon.name);
+
+        if (error) {
+            console.log('❌ ERROR loading image:', icon.name, error);
+            return;
+        }
+
+        console.log('✅ Image loaded successfully:', icon.name);
+        console.log('🖼️ Image object:', image);
+
+        map.addImage(icon.name, image);
+        console.log('📌 Image added to map with name:', icon.name);
+
+        loadedCount++;
+        console.log('🔢 Loaded count:', loadedCount, '/', icons.length);
+
+        if (loadedCount === icons.length) {
+            console.log('🚀 ALL IMAGES LOADED — NOW LOADING DATA LAYERS');
+
+            layers.forEach(item => {
+                console.log('📂 Loading dataset:', item.path);
+                console.log('➡️ Source ID:', item.source);
+                console.log('➡️ Layer ID:', item.layer);
+                console.log('➡️ Icon used:', item.icon);
+
+                fetchData(item.path, item.source, item.layer, item.icon, item.size);
+            });
+        }
     });
-}); 
+});
+});

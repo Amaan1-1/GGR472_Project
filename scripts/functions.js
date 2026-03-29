@@ -190,23 +190,27 @@ function getDistance(){
 
 }
 
-function fetchdata(path, source, layerId, icon) {
+function fetchData(path, sourceId, layerId, icon, size) {
     fetch(path)
-    .then(response => response.json())
-    .then(data => {
-        source = data;
-        map.addSource(source, {
-            type: 'geojson',
-            data: source
+        .then(response => response.json())
+        .then(data => {
+            map.addSource(sourceId, {
+                type: 'geojson',
+                data: data
+            });
+            console.log(data)
+
+            map.addLayer({
+                id: layerId,
+                type: 'symbol',
+                source: sourceId,
+                layout: {
+                    'icon-image': icon,
+                    'icon-size': size
+                },
+                paint: {
+                'icon-color': '#00ff00'
+                }
+            });
         });
-        map.addLayer({
-            id: layerId,
-            type: 'circle',
-            source: source,
-            layout: {
-            'icon-image': icon,
-            'icon-size': 0.5
-            }
-      });       
-    });
 }
