@@ -19,23 +19,78 @@ const map = new mapboxgl.Map({
 
 let green_spaces;
 
+let green_roofs;
+
+let green_streets;
+
 map.on('load', () => {
-  fetch('./data/green_spaces.geojson')
-    .then(response => response.json())
-    .then(data => {
-        green_spaces = data;
-        map.addSource('green-spaces', {
-            type: 'geojson',
-            data: green_spaces
-        });
-        map.addLayer({
-            id: 'green-spaces-layer',
-            type: 'circle',
+    const icons = [
+        { name: 'tree-icon', url: './data/tree.png' },
+        { name: 'house-icon', url: './data/house.png' },
+        { name: 'signpost-icon', url: './data/signpost.png' }
+        ];
+    //src: https://docs.mapbox.com/mapbox-gl-js/example/add-image/
+    
+
+    const layers = [
+        {
+            path: './data/green_spaces.geojson',
             source: 'green-spaces',
-            paint: {
-            'circle-radius': 6,
-            'circle-color': '#cafa08'
-            }
-      });       
+            layer: 'green-spaces-layer',
+            icon: 'tree-icon',
+            size: 0.2
+        },
+        {
+            path: 'https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_roofs.geojson',
+            source: 'green-roofs',
+            layer: 'green-roofs-layer',
+            icon: 'house-icon',
+            size: 0.2
+        },
+        {
+            path: './data/green_streets.geojson',
+            source: 'green-streets',
+            layer: 'green-streets-layer',
+            icon: 'signpost-icon',
+            size: 0.2
+        }
+    ];
+
+    let loadedCount = 0;
+
+    icons.forEach(icon => {
+    console.log('⏳ Attempting to load image:', icon.name, icon.url);
+
+    map.loadImage(icon.url, (error, image) => {
+
+        console.log('📥 loadImage callback triggered for:', icon.name);
+
+        if (error) {
+            console.log('❌ ERROR loading image:', icon.name, error);
+            return;
+        }
+
+        console.log('✅ Image loaded successfully:', icon.name);
+        console.log('🖼️ Image object:', image);
+
+        map.addImage(icon.name, image);
+        console.log('📌 Image added to map with name:', icon.name);
+
+        loadedCount++;
+        console.log('🔢 Loaded count:', loadedCount, '/', icons.length);
+
+        if (loadedCount === icons.length) {
+            console.log('🚀 ALL IMAGES LOADED — NOW LOADING DATA LAYERS');
+
+            layers.forEach(item => {
+                console.log('📂 Loading dataset:', item.path);
+                console.log('➡️ Source ID:', item.source);
+                console.log('➡️ Layer ID:', item.layer);
+                console.log('➡️ Icon used:', item.icon);
+
+                fetchData(item.path, item.source, item.layer, item.icon, item.size);
+            });
+        }
     });
+});
 });

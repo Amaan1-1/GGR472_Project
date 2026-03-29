@@ -189,3 +189,28 @@ function getDistance(){
     }
 
 }
+
+function fetchData(path, sourceId, layerId, icon, size) {
+    fetch(path)
+        .then(response => response.json())
+        .then(data => {
+            map.addSource(sourceId, {
+                type: 'geojson',
+                data: data
+            });
+            console.log(data)
+
+            map.addLayer({
+                id: layerId,
+                type: 'symbol',
+                source: sourceId,
+                layout: {
+                    'icon-image': icon,
+                    'icon-size': size
+                },
+                paint: {
+                'icon-color': '#00ff00'
+                }
+            });
+        });
+}
