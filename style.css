@@ -172,8 +172,14 @@ body {
     font-size: 12px;
 }
 
+.legend-icon {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
 .icon-placeholder {
-    font-size: 24px;
+    font-size: 30px;
 }
 
 /* Interactive Hover Effects */
