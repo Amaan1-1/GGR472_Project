@@ -1,18 +1,28 @@
 function addPopup(map, layerId){
     // Open popup when user clicks on a hex
     map.on('click', layerId, (e) => {
-
-        let area = turf.area(e.features[0].geometry);
+        console.log(e.features[0].properties["Common Name"]);
 
         // Show popup with collision count and hex area on click
-        new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
-            .setHTML("<b>Collision Count:</b> " + e.features[0].properties.COUNT + 
-                "<br><b>Hex Area:</b> " + turf.round(area/1000000, 3) + "Km²"
-            ) //converting meters sqaured to km squared and then rounding to 3 decimal places
-            //source: https://turfjs.org/docs/api/round
-            .addTo(map);
+        if(layerId === "green-streets-layer"){
+            new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML("<b>Area Name:</b> " + e.features[0].properties["Common Name"] +
+                "<br><b>Green Infrastructure Type:</b> " + e.features[0].properties["Green Infrastructure Type"]
+                )
+                .addTo(map);
+        }
+        else if(layerId === "green-roofs-layer"){
+            new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML("<b>Building Type:</b> " + e.features[0].properties.PERMIT_TYP +
+                "<br><b>Address:</b> " + e.features[0].properties.FULL_ADDRE
+                )
+                .addTo(map);
+        }
+           
     });
+   
 
     // Change cursor style when hovering over a clickable feature
     map.on('mouseenter', layerId, () => {
@@ -25,11 +35,11 @@ function addPopup(map, layerId){
         map.setPaintProperty(layerId, 'fill-opacity', 0.6);
     });
 
-    // Add a hover effect by increasing opacity of all hexagons 
+    // Add a hover effect by increasing opacity of all hexagons
     map.on('mousemove', layerId, () => {
         map.setPaintProperty(layerId, 'fill-opacity', 0.9);
     });
-        
+       
 }
 
 
@@ -37,9 +47,9 @@ function addPopup(map, layerId){
 function resetButton(map, button){
     document.getElementById(button).addEventListener('click', () => {
         map.flyTo({
-            center: [-79.39, 43.65], 
-            zoom: 11, 
-            essential: true 
+            center: [-79.39, 43.65],
+            zoom: 11,
+            essential: true
         });
     });
 
@@ -47,10 +57,10 @@ function resetButton(map, button){
 
 function UpdateVisibility(buttonId, label, map, LayerName){
     document.getElementById(buttonId).addEventListener('click', () => {
-        //Checking if the points are visible by using 
-        // the function getLayoutProperty() 
+        //Checking if the points are visible by using
+        // the function getLayoutProperty()
         const visibility = map.getLayoutProperty(label, 'visibility');
-        //If the points are visible then hide them and change the text on the button 
+        //If the points are visible then hide them and change the text on the button
         // to say "Show"
         if(visibility !== "none"){
             map.setLayoutProperty(label, 'visibility', 'none');
@@ -66,7 +76,7 @@ function UpdateVisibility(buttonId, label, map, LayerName){
 }
 
 //Source https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
-//Show long and lat of mouse 
+//Show long and lat of mouse
 function LatLngDisplay(map) {
 
     map.on('mousemove', (e) => {
@@ -100,21 +110,21 @@ function addLegend(map, maxcollisions){
     legenditems.forEach(({ label, colour }) => {
 
         // Create a container row for the legend item
-        const row = document.createElement('div'); 
+        const row = document.createElement('div');
         // create span for colour circle
-        const colcircle = document.createElement('span'); 
+        const colcircle = document.createElement('span');
 
         // the colcircle will take on the shape and style properties defined in css
-        colcircle.className = 'legend-colcircle'; 
+        colcircle.className = 'legend-colcircle';
         // a custom property is used to take the colour from the array and apply it to the css class
-        colcircle.style.setProperty('--legendcolour', colour); 
+        colcircle.style.setProperty('--legendcolour', colour);
 
         // Create span element for legend label text
-        const text = document.createElement('span'); 
+        const text = document.createElement('span');
         text.textContent = label; // set text variable to tlegend label value in array
 
         // Append each legend item (circle, text) to the container
-        row.append(colcircle, text); 
+        row.append(colcircle, text);
         legend.appendChild(row); // Add row into main legend container
     });
 
@@ -143,7 +153,7 @@ setPoint("point1", 0, map);
 setPoint("point2", 1, map);
 
 function setPoint(button, point, map){
-    // Listen for the button click to start the point selection 
+    // Listen for the button click to start the point selection
     document.getElementById(button).addEventListener('click', () => {
         // // Using map.once to capture only the next single click on the map
         map.once('click', (e) => {
@@ -195,28 +205,55 @@ function fetchData(path, sourceId, layerId, icon, size) {
     fetch(path)
         .then(response => response.json())
         .then(data => {
-            map.addSource(sourceId, {
-                type: 'geojson',
-                data: data
-            });
-            console.log(data)
 
-            map.addLayer({
-                id: layerId,
-                type: 'symbol',
-                source: sourceId,
-                layout: {
-                    'icon-image': icon,
-                    'icon-size': size
-                },
-                paint: {
-                'icon-color': '#00ff00'
-                }
-            });
+            if(layerId === "green-spaces-layer"){
+
+                map.addSource(sourceId, {
+                    type: 'geojson',
+                    'data': {
+                    'type': 'Feature',
+                    'geometry': {
+                        'type': 'Polygon'}}
+                });
+
+                map.addLayer({
+                    id: layerId,
+                    type: 'symbol',
+                    source: sourceId,
+                    layout: {
+                        'icon-image': icon,
+                        'icon-size': size
+                    },
+                    paint: {
+                    'icon-color': '#00ff00'
+                    }
+                });
+            }
+           
+            else{
+                map.addSource(sourceId, {
+                    type: 'geojson',
+                    data: data
+                });
+
+                map.addLayer({
+                    id: layerId,
+                    type: 'symbol',
+                    source: sourceId,
+                    layout: {
+                        'icon-image': icon,
+                        'icon-size': size
+                    },
+                    paint: {
+                    'icon-color': '#00ff00'
+                    }
+                });
+            }
+           
         });
 }
 
 //src: https://docs.mapbox.com/mapbox-gl-js/api/map/#:~:text=getCanvas().toDataURL()%20.%20This%20is%20false%20by%20default%20as%20a%20performance&text=To%20load%20a%20style%20from%20the%20Mapbox,use%20a%20URL%20of%20the%20form%20mapbox
 function ExportMap(map){
-    
+   
 }

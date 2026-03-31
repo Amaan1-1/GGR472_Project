@@ -28,7 +28,7 @@ map.on('load', () => {
             source: 'green-spaces',
             layer: 'green-spaces-layer',
             icon: 'tree-icon',
-            size: 0.05,
+            size: 0.08,
             btn: 'btn-spaces',
             label: 'Green Spaces'
         },
@@ -37,7 +37,7 @@ map.on('load', () => {
             source: 'green-roofs',
             layer: 'green-roofs-layer',
             icon: 'house-icon',
-            size: 0.05,
+            size: 0.08,
             btn: 'btn-roofs',
             label: 'Green Roofs'
         },
