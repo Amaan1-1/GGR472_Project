@@ -45,7 +45,7 @@ function resetButton(map, button){
 
 }
 
-function UpdateVisibility(buttonId, label, map){
+function UpdateVisibility(buttonId, label, map, LayerName){
     document.getElementById(buttonId).addEventListener('click', () => {
         //Checking if the points are visible by using 
         // the function getLayoutProperty() 
@@ -54,12 +54,12 @@ function UpdateVisibility(buttonId, label, map){
         // to say "Show"
         if(visibility !== "none"){
             map.setLayoutProperty(label, 'visibility', 'none');
-            document.getElementById(buttonId).innerHTML = "Show";
+            document.getElementById(buttonId).innerHTML = LayerName + " (Show)";
         }
         else{
             //if the points are not visible then display them and change
             // text on the button to say "hide"
-            document.getElementById(buttonId).innerHTML = "Hide";
+            document.getElementById(buttonId).innerHTML = LayerName + " (Hide)";
             map.setLayoutProperty(label, 'visibility', 'visible');
         }
     });
@@ -68,6 +68,7 @@ function UpdateVisibility(buttonId, label, map){
 //Source https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
 //Show long and lat of mouse 
 function LatLngDisplay(map) {
+
     map.on('mousemove', (e) => {
         let coords = e.lngLat.wrap();  
         const lng = coords.lng.toString().slice(0, 6);  
@@ -213,4 +214,9 @@ function fetchData(path, sourceId, layerId, icon, size) {
                 }
             });
         });
+}
+
+//src: https://docs.mapbox.com/mapbox-gl-js/api/map/#:~:text=getCanvas().toDataURL()%20.%20This%20is%20false%20by%20default%20as%20a%20performance&text=To%20load%20a%20style%20from%20the%20Mapbox,use%20a%20URL%20of%20the%20form%20mapbox
+function ExportMap(map){
+    
 }
