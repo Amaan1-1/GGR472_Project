@@ -206,16 +206,34 @@ function fetchData(path, sourceId, layerId, icon, size) {
         .then(response => response.json())
         .then(data => {
 
-            if(layerId === "green-spaces-layer"){
+            map.addSource(sourceId, {
+                type: 'geojson',
+                data: data
+            });
 
-                map.addSource(sourceId, {
-                    type: 'geojson',
-                    'data': {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'Polygon'}}
+            if (layerId === 'green-spaces-layer') {
+                map.addLayer({
+                    id: layerId,
+                    type: 'fill',
+                    source: sourceId,
+                    paint: {
+                        'fill-color': '#00aa55',
+                        'fill-opacity': 0.5
+                    }
                 });
 
+                map.addLayer({
+                    id: 'green-spaces-outline',
+                    type: 'line',
+                    source: sourceId,
+                    paint: {
+                        'line-color': '#006633',
+                        'line-width': 1
+                    }
+                });
+            }
+
+            else {
                 map.addLayer({
                     id: layerId,
                     type: 'symbol',
@@ -223,33 +241,10 @@ function fetchData(path, sourceId, layerId, icon, size) {
                     layout: {
                         'icon-image': icon,
                         'icon-size': size
-                    },
-                    paint: {
-                    'icon-color': '#00ff00'
                     }
                 });
             }
-           
-            else{
-                map.addSource(sourceId, {
-                    type: 'geojson',
-                    data: data
-                });
 
-                map.addLayer({
-                    id: layerId,
-                    type: 'symbol',
-                    source: sourceId,
-                    layout: {
-                        'icon-image': icon,
-                        'icon-size': size
-                    },
-                    paint: {
-                    'icon-color': '#00ff00'
-                    }
-                });
-            }
-           
         });
 }
 
