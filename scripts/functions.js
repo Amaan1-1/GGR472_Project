@@ -63,26 +63,26 @@ function resetButton(map, button){
 
 function UpdateVisibility(buttonId, label, map, LayerName){
     document.getElementById(buttonId).addEventListener('click', () => {
-        //Checking if the points are visible by using
-        // the function getLayoutProperty()
         const visibility = map.getLayoutProperty(label, 'visibility');
-        //If the points are visible then hide them and change the text on the button
-        // to say "Show"
-        if(visibility !== "none"){
+        const outlineId = label + '-outline';
+
+        if (visibility !== "none") {
             map.setLayoutProperty(label, 'visibility', 'none');
-            if (label === 'green-spaces-layer') {
-                map.setLayoutProperty('green-spaces-outline', 'visibility', 'none');
+
+            if (map.getLayer(outlineId)) {
+                map.setLayoutProperty(outlineId, 'visibility', 'none');
             }
+
             document.getElementById(buttonId).innerHTML = LayerName + " (Show)";
         }
-        else{
-            //if the points are not visible then display them and change
-            // text on the button to say "hide"
-            document.getElementById(buttonId).innerHTML = LayerName + " (Hide)";
-            if (label === 'green-spaces-layer') {
-                map.setLayoutProperty('green-spaces-outline', 'visibility', 'visible');
-            }
+        else {
             map.setLayoutProperty(label, 'visibility', 'visible');
+
+            if (map.getLayer(outlineId)) {
+                map.setLayoutProperty(outlineId, 'visibility', 'visible');
+            }
+
+            document.getElementById(buttonId).innerHTML = LayerName + " (Hide)";
         }
     });
 }
@@ -235,12 +235,42 @@ function fetchData(path, sourceId, layerId, icon, size) {
                 });
 
                 map.addLayer({
-                    id: 'green-spaces-outline',
+                    id: layerId + '-outline',
                     type: 'line',
                     source: sourceId,
                     paint: {
                         'line-color': '#006633',
                         'line-width': 1
+                    }
+                });
+            }
+
+            else if (layerId === 'heat-vulnerability-layer') {
+                map.addLayer({
+                    id: layerId,
+                    type: 'fill',
+                    source: sourceId,
+                    paint: {
+                        'fill-color': [
+                            'step',
+                            ['to-number', ['get', 'SUM_temper']],
+                            '#ffff00',
+                            10.483951,  '#ffb000',
+                            12.803808,  '#ff7f00',
+                            14.311111, '#ff3f00',
+                            15.589391, '#ff0000'
+                        ],
+                        'fill-opacity': 0.7
+                    }
+                });
+
+                map.addLayer({
+                    id: layerId + '-outline',
+                    type: 'line',
+                    source: sourceId,
+                    paint: {
+                        'line-color': '#660000',
+                        'line-width': 0.8
                     }
                 });
             }
@@ -253,14 +283,33 @@ function fetchData(path, sourceId, layerId, icon, size) {
                     layout: {
                         'icon-image': icon,
                         'icon-size': size
-                    } 
+                    }
                 });
+                map.moveLayer(layerId);
             }
-
+            reorderLayers(map);
         });
+    
 }
 
 //src: https://docs.mapbox.com/mapbox-gl-js/api/map/#:~:text=getCanvas().toDataURL()%20.%20This%20is%20false%20by%20default%20as%20a%20performance&text=To%20load%20a%20style%20from%20the%20Mapbox,use%20a%20URL%20of%20the%20form%20mapbox
 function ExportMap(map){
    
+}
+
+function reorderLayers(map){
+    const order = [
+        'heat-vulnerability-layer',
+        'heat-vulnerability-layer-outline',
+        'green-spaces-layer',
+        'green-spaces-layer-outline',
+        'green-roofs-layer',
+        'green-streets-layer'
+    ];
+
+    order.forEach(layer => {
+        if (map.getLayer(layer)) {
+            map.moveLayer(layer);
+        }
+    });
 }

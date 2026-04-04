@@ -24,6 +24,16 @@ map.on('load', () => {
 
     const layers = [
         {
+            path: './data/green_roofs.geojson',
+            source: 'green-roofs',
+            layer: 'green-roofs-layer',
+            icon: 'house-icon',
+            size: 0.025,
+            btn: 'btn-roofs',
+            label: 'Green Roofs'
+        },
+        
+        {
             path: './data/green_spaces.geojson',
             source: 'green-spaces',
             layer: 'green-spaces-layer',
@@ -32,23 +42,24 @@ map.on('load', () => {
             btn: 'btn-spaces',
             label: 'Green Spaces'
         },
-        {
-            path: './data/green_roofs.geojson',
-            source: 'green-roofs',
-            layer: 'green-roofs-layer',
-            icon: 'house-icon',
-            size: 0.1,
-            btn: 'btn-roofs',
-            label: 'Green Roofs'
-        },
+        
         {
             path: './data/green_streets.geojson',
             source: 'green-streets',
             layer: 'green-streets-layer',
             icon: 'signpost-icon',
-            size: 0.1,
+            size: 0.12,
             btn: 'btn-streets',
             label: 'Green Streets'
+        },
+        {
+            path: './data/heat_vulnerability_map.geojson',
+            source: 'heat-vulnerability',
+            layer: 'heat-vulnerability-layer',
+            icon: 'signpost-icon',
+            size: 0.1,
+            btn: 'btn-heat',
+            label: 'Heat Vulnerability'
         }
     ];
 
@@ -66,7 +77,6 @@ map.on('load', () => {
                 layers.forEach(item => {
                     fetchData(item.path, item.source, item.layer, item.icon, item.size);
                     addPopup(map, item.layer);
-                    console.log()
                     UpdateVisibility(item.btn, item.layer, map, item.label);
                 });
             }
@@ -87,5 +97,6 @@ map.on('load', () => {
     if (document.getElementById('coordinate-display')) {
         LatLngDisplay(map);
     }
+
 
 });
