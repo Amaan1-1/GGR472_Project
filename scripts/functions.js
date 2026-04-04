@@ -20,6 +20,12 @@ function addPopup(map, layerId){
                 )
                 .addTo(map);
         }
+        else if(layerId === "green-spaces-layer"){
+            new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML("<b>Area Name:</b> " + e.features[0].properties.AREA_NAME)
+                .addTo(map);
+        } 
            
     });
    
@@ -64,12 +70,18 @@ function UpdateVisibility(buttonId, label, map, LayerName){
         // to say "Show"
         if(visibility !== "none"){
             map.setLayoutProperty(label, 'visibility', 'none');
+            if (label === 'green-spaces-layer') {
+                map.setLayoutProperty('green-spaces-outline', 'visibility', 'none');
+            }
             document.getElementById(buttonId).innerHTML = LayerName + " (Show)";
         }
         else{
             //if the points are not visible then display them and change
             // text on the button to say "hide"
             document.getElementById(buttonId).innerHTML = LayerName + " (Hide)";
+            if (label === 'green-spaces-layer') {
+                map.setLayoutProperty('green-spaces-outline', 'visibility', 'visible');
+            }
             map.setLayoutProperty(label, 'visibility', 'visible');
         }
     });
@@ -241,7 +253,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
                     layout: {
                         'icon-image': icon,
                         'icon-size': size
-                    }
+                    } 
                 });
             }
 
