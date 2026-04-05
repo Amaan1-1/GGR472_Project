@@ -21,11 +21,11 @@ body {
 }
 
 .map-title {
-    font-size: 24px;
     font-weight: bold;
+    font-size: 20px;
 }
 
-.search-container, .nav-container {
+.nav-container {
     border: 1px solid #ccc;
     padding: 5px 20px;
 }
@@ -193,12 +193,12 @@ body {
     transform: translateY(1px);
 }
 
-/* Search Bar & Nav Refinement */
 .search-container {
     width: 400px;
     text-align: center;
     color: #888;
-    background-color: #fff;
+    background-color: transparent;
+    outline: black;
     font-size: 14px;
 }
 
