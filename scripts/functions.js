@@ -245,7 +245,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
                 });
             }
 
-            else if (layerId === 'heat-vulnerability-layer') {
+            else if(layerId === 'heat-vulnerability-layer') {
                 map.addLayer({
                     id: layerId,
                     type: 'fill',
@@ -294,6 +294,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
 
 //src: https://docs.mapbox.com/mapbox-gl-js/api/map/#:~:text=getCanvas().toDataURL()%20.%20This%20is%20false%20by%20default%20as%20a%20performance&text=To%20load%20a%20style%20from%20the%20Mapbox,use%20a%20URL%20of%20the%20form%20mapbox
 function ExportMap(map){
+    const canvas = map.getCanvas().toDataURL('image/png');
    
 }
 

@@ -37,7 +37,7 @@ map.on('load', () => {
             path: './data/green_spaces.geojson',
             source: 'green-spaces',
             layer: 'green-spaces-layer',
-            icon: 'tree-icon',
+            icon: 'Undefined',
             size: 0.08,
             btn: 'btn-spaces',
             label: 'Green Spaces'
@@ -56,7 +56,7 @@ map.on('load', () => {
             path: './data/heat_vulnerability_map.geojson',
             source: 'heat-vulnerability',
             layer: 'heat-vulnerability-layer',
-            icon: 'signpost-icon',
+            icon: 'Undefined',
             size: 0.1,
             btn: 'btn-heat',
             label: 'Heat Vulnerability'
