@@ -98,5 +98,9 @@ map.on('load', () => {
         LatLngDisplay(map);
     }
 
+    if (document.getElementById('intensity-filter')) {
+        addIntensityFilter(map, 'intensity-filter', 'heat-vulnerability-layer');
+    }
+
 
 });

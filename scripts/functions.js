@@ -313,3 +313,44 @@ function reorderLayers(map){
         }
     });
 }
+
+function addIntensityFilter(map, selectId, layerId) {
+    document.getElementById(selectId).addEventListener('change', (e) => {
+        const value = e.target.value;
+        let filter = null;
+
+        if (value === 'high') {
+            filter = ['>=', ['to-number', ['get', 'SUM_temper']], 15.589391];
+        }
+        else if (value === 'moderate-high') {
+            filter = ['all',
+                ['>=', ['to-number', ['get', 'SUM_temper']], 14.311111],
+                ['<', ['to-number', ['get', 'SUM_temper']], 15.589391]
+            ];
+        }
+        else if (value === 'moderate') {
+            filter = ['all',
+                ['>=', ['to-number', ['get', 'SUM_temper']], 12.803808],
+                ['<', ['to-number', ['get', 'SUM_temper']], 14.311111]
+            ];
+        }
+        else if (value === 'low-moderate') {
+            filter = ['all',
+                ['>=', ['to-number', ['get', 'SUM_temper']], 10.483951],
+                ['<', ['to-number', ['get', 'SUM_temper']], 12.803808]
+            ];
+        }
+        else if (value === 'low') {
+            filter = ['<', ['to-number', ['get', 'SUM_temper']], 10.483951];
+        }
+        else {
+            filter = null;
+        }
+
+        map.setFilter(layerId, filter);
+
+        if (map.getLayer(layerId + '-outline')) {
+            map.setFilter(layerId + '-outline', filter);
+        }
+    });
+}

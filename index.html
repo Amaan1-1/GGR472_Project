@@ -37,22 +37,23 @@
                     <form>
                         <fieldset id="boundaryfieldset" style="border: none; padding: 0;">
                             <label class="option-label" style="display: block; font-size: 13px; margin-bottom: 10px;">Temperature Index</label>
-                            <select id="temp-select" name="temp-select" style="width: 100%; padding: 5px; border-radius: 4px;">
-                                <option value="" disabled selected>Select level...</option>
+                            <select id="intensity-filter">
+                                <option value="all">All Intensities</option>
                                 <option value="high">High Intensity</option>
-                                <option value="low">Moderate-High Intensity</option>
+                                <option value="moderate-high">Moderate-High Intensity</option>
                                 <option value="moderate">Moderate Intensity</option>
-                                <option value="low">Low-Moderate Intensity</option>
+                                <option value="low-moderate">Low-Moderate Intensity</option>
                                 <option value="low">Low Intensity</option>
-                                <option value="all">Show all</option>
                             </select>
                         </fieldset>
                     </form>
                     
                     <ol class="temp-list" style="margin-top: 20px;">
-                        <li>Index 1</li>
-                        <li>Index 2</li>
-                        <li>Index 3</li>
+                        <li><b>High:</b> > 15.6</li>
+                        <li><b>Moderate-High:</b> 14.3 - 15.6</li>
+                        <li><b>Moderate:</b> 12.8 - 14.3</li>
+                        <li><b>Low-Moderate:</b> 10.5 - 12.8</li>
+                        <li><b>Low:</b> < 10.5</li>
                     </ol>
                 </div>
 
