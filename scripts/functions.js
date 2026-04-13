@@ -352,3 +352,49 @@ function addIntensityFilter(map, selectId, layerId) {
         }
     });
 }
+
+function ClearPoints(){
+    geojson["features"] = [];
+    map.getSource('input-data').setData(geojson);
+    document.getElementById('distance-output').innerHTML = "0";
+}
+
+function Buffer(){
+    //wait for the user to click a point on the map then create a buffer at that point
+    document.getElementById('btn-buffer').addEventListener('click', () => { 
+        map.once('click', (e) => {
+            let distance = document.getElementById('buffer-dist');
+            let point = turf.point([e.lngLat.lng, e.lngLat.lat]);
+            let buffresult = turf.buffer(point, distance.value/1000);
+
+            map.addSource('buffgeojson', {
+                "type": "geojson",
+                "data": buffresult 
+            });
+
+            map.addLayer({
+                "id": "inputpointbuff",
+                "type": "fill",
+                "source": "buffgeojson",
+                "paint": {
+                    'fill-color': "blue",
+                    'fill-opacity': 0.5,
+                    'fill-outline-color': "black"
+                }
+            });
+
+        });
+    });
+}
+
+function clearBuffer(){
+
+    if(map.getLayer('inputpointbuff')){
+        map.removeLayer('inputpointbuff');
+    }
+
+    if(map.getSource('buffgeojson')){
+        map.removeSource('buffgeojson');
+    }
+}
+

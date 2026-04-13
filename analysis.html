@@ -32,18 +32,22 @@
                 <div class="sidebar-label">Buffer Analysis</div>
                 <div class="analysis-box">
                     <label class="option-label">Buffer Distance (meters)</label>
-                    <input type="number" id="buffer-dist" class="form-control mb-2" value="500">
+                    <input type="number" id="buffer-dist" class="buffer" value="500">
                     <button id="btn-buffer" class="layer-btn">Create Buffer</button>
                     <button id="clear-buffer" class="layer-btn btn-clear">Clear</button>
                 </div>
-
+ 
                 <div class="section-spacer"></div>
 
                 <div class="sidebar-label">Distance Measurement</div>
                 <div class="analysis-box">
-                    <p class="analysis-hint">Click two points on the map to calculate distance.</p>
-                    <div id="distance-result" class="result-display">Distance: 0 km</div>
-                    <button id="btn-distance" class="layer-btn">Start Measuring</button>
+                    <div class="result-display d-flex justify-content-between">
+                        <span id="distance-output">0</span>
+                        <span class="text-muted">km</span>
+                    </div> 
+                    <button id="point1" class="layer-btn mb-2">Set Point 1</button>
+                    <button id="point2" class="layer-btn">Set Point 2</button>
+                    <button id="clear-points" class="layer-btn btn-clear">Clear Points</button>
                 </div>
 
                 <button id="export-map" class="export-btn">Export Analysis</button>

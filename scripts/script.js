@@ -102,5 +102,59 @@ map.on('load', () => {
         addIntensityFilter(map, 'intensity-filter', 'heat-vulnerability-layer');
     }
 
+    // Add a source for user-inputted points and lines
+    map.addSource('input-data', {
+        type: 'geojson',
+        data: geojson
+    });
+
+    // Add a layer to visualize the points the user clicks on the map
+    map.addLayer({
+        'id': 'input-pnts',
+        'type': 'circle',
+        'source': 'input-data',
+        'paint': {
+            'circle-radius': 5,
+            'circle-color':"#2dff03",
+            'circle-stroke-width': 1.5, // white outline
+            'circle-emissive-strength': 1.1, //glow effect
+            'circle-stroke-color': '#ffffff' //white stroke
+        }
+    });
+
+    //Create a line between the 2 points
+    //Source: https://docs.mapbox.com/mapbox-gl-js/example/geojson-line/
+    map.addLayer({
+        'id': 'route',
+        'type': 'line',
+        'source': 'input-data',
+        'layout': {
+            'line-cap': 'round', // Rounded corners
+            'line-join': 'round'
+        },
+        'paint': {
+            'line-color':"#000000",
+            'line-width': 8, // Thick line
+            'line-opacity': 1.0 // Full opacity for max visibility
+        },
+    });
+
+    if(document.getElementById('point1')){
+        setPoint("point1", 0, map);
+        setPoint("point2", 1, map);
+    }
+
+    document.getElementById('clear-points').addEventListener('click', () => {
+        ClearPoints();
+    });
+
+    if(document.getElementById('btn-buffer')){
+        Buffer();
+    }
+
+    document.getElementById('clear-buffer').addEventListener('click', () => {
+        clearBuffer();
+    });
+
 
 });
