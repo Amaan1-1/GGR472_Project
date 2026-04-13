@@ -9,6 +9,7 @@ function addPopup(map, layerId){
                 .setLngLat(e.lngLat)
                 .setHTML("<b>Area Name:</b> " + e.features[0].properties["Common Name"] +
                 "<br><b>Green Infrastructure Type:</b> " + e.features[0].properties["Green Infrastructure Type"]
+                + "<br><br><button id='add-buffer-btn' type='button'>Add Buffer</button>"
                 )
                 .addTo(map);
         }
@@ -17,15 +18,20 @@ function addPopup(map, layerId){
                 .setLngLat(e.lngLat)
                 .setHTML("<b>Building Type:</b> " + e.features[0].properties.PERMIT_TYP +
                 "<br><b>Address:</b> " + e.features[0].properties.FULL_ADDRE
+                + "<br><br><button id='add-buffer-btn' type='button'>Add Buffer</button>"
                 )
                 .addTo(map);
         }
         else if(layerId === "green-spaces-layer"){
             new mapboxgl.Popup()
                 .setLngLat(e.lngLat)
-                .setHTML("<b>Area Name:</b> " + e.features[0].properties.AREA_NAME)
+                .setHTML("<b>Area Name:</b> " + e.features[0].properties.AREA_NAME + "<br><br><button id='add-buffer-btn' type='button'>Add Buffer</button>")
                 .addTo(map);
         } 
+
+        if(document.getElementById('add-buffer-btn')){
+                Buffer("add-buffer-btn", e.lngLat.lng, e.lngLat.lat);
+            }
            
     });
    
@@ -55,7 +61,9 @@ function resetButton(map, button){
         map.flyTo({
             center: [-79.39, 43.65],
             zoom: 11,
-            essential: true
+            essential: true,
+            bearing: 0,
+            pitch: 0
         });
     });
 
@@ -359,12 +367,15 @@ function ClearPoints(){
     document.getElementById('distance-output').innerHTML = "0";
 }
 
-function Buffer(){
+function Buffer(btnId, long, lat){
     //wait for the user to click a point on the map then create a buffer at that point
-    document.getElementById('btn-buffer').addEventListener('click', () => { 
+    document.getElementById(btnId).addEventListener('click', () => { 
         map.once('click', (e) => {
             let distance = document.getElementById('buffer-dist');
-            let point = turf.point([e.lngLat.lng, e.lngLat.lat]);
+            let point = turf.point([long, lat]);
+            if(!long && !lat){
+                point = turf.point([e.lngLat.lng, e.lngLat.lat]);
+            }
             let buffresult = turf.buffer(point, distance.value/1000);
 
             map.addSource('buffgeojson', {

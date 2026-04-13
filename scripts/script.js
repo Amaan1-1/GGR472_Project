@@ -149,7 +149,7 @@ map.on('load', () => {
     });
 
     if(document.getElementById('btn-buffer')){
-        Buffer();
+        Buffer("btn-buffer", null, null);
     }
 
     document.getElementById('clear-buffer').addEventListener('click', () => {
