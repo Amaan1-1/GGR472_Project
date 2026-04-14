@@ -101,65 +101,13 @@ function LatLngDisplay(map) {
 
     map.on('mousemove', (e) => {
         let coords = e.lngLat.wrap();  
-        const lng = coords.lng.toString().slice(0, 6);  
-        const lat = coords.lat.toString().slice(0, 5);    
-        //source for string slicing: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+        // Use turf.round to round coordinates to 3 decimal places
+        const lng = turf.round(coords.lng, 3);
+        const lat = turf.round(coords.lat, 3);
 
         document.getElementById('coordinate-display').innerHTML = "Longitude: " + lng + " | Latitude: " + lat;
     });
 }
-
-function addLegend(map, maxcollisions){
-    const legend = document.getElementById('legend');
-    if(!legend){
-        return;
-    } //No legend on analysis page, so dont run function on that page
-    legend.innerHTML = '<h4>Collision Intensity</h4>';
-
-    // Create legend for collision categories with matching colors
-    const legenditems = [
-        { label: "0 collisions", colour: "#ffffff" },
-        { label: "1 - 5 collisions", colour: "#ffebf1" },
-        { label: "6 - 15 collisions", colour: "#ffb7ce" },
-        { label: "16 - 30 collisions", colour: "#ff2163" },
-        { label: "31 - " + maxcollisions + " collisions", colour: "#ff0000" }
-    ];
-
-
-    // For each array item create a row to put the label and colour in
-    legenditems.forEach(({ label, colour }) => {
-
-        // Create a container row for the legend item
-        const row = document.createElement('div');
-        // create span for colour circle
-        const colcircle = document.createElement('span');
-
-        // the colcircle will take on the shape and style properties defined in css
-        colcircle.className = 'legend-colcircle';
-        // a custom property is used to take the colour from the array and apply it to the css class
-        colcircle.style.setProperty('--legendcolour', colour);
-
-        // Create span element for legend label text
-        const text = document.createElement('span');
-        text.textContent = label; // set text variable to tlegend label value in array
-
-        // Append each legend item (circle, text) to the container
-        row.append(colcircle, text);
-        legend.appendChild(row); // Add row into main legend container
-    });
-
-    // Create an interactive button for toggling hex visibility
-    const button = document.createElement("button");
-    button.textContent = "Hide";
-    button.id = "hex-toggle";
-    button.className = "hide_button";
-    legend.appendChild(button);
-    //add toggle button functionality using UpdateVisibility method
-    UpdateVisibility(button.id, "collishexfill", map);
-
-
-}
-
 
 //Create a geojson to sore the 2 points
 let geojson = {
@@ -388,7 +336,7 @@ function Buffer(btnId, long, lat){
                 "type": "fill",
                 "source": "buffgeojson",
                 "paint": {
-                    'fill-color': "blue",
+                    'fill-color': "white",
                     'fill-opacity': 0.5,
                     'fill-outline-color': "black"
                 }

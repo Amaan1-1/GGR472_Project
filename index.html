@@ -35,8 +35,8 @@
 
                 <div class="temp-index-box">
                     <form>
-                        <fieldset id="boundaryfieldset" style="border: none; padding: 0;">
-                            <label class="option-label" style="display: block; font-size: 13px; margin-bottom: 10px;">Temperature Index</label>
+                        <fieldset id="boundaryfieldset" >
+                            <label class="option-label" >Temperature Index</label>
                             <select id="intensity-filter">
                                 <option value="all">All Intensities</option>
                                 <option value="high">High Intensity</option>
@@ -48,13 +48,13 @@
                         </fieldset>
                     </form>
                     
-                    <ol class="temp-list" style="margin-top: 20px;">
-                        <li><b>High:</b> > 15.6</li>
-                        <li><b>Moderate-High:</b> 14.3 - 15.6</li>
-                        <li><b>Moderate:</b> 12.8 - 14.3</li>
-                        <li><b>Low-Moderate:</b> 10.5 - 12.8</li>
-                        <li><b>Low:</b> < 10.5</li>
-                    </ol>
+                    <div class="temp-list" style="margin-top: 20px;">
+                        <div><b>High:</b> > 15.6</div>
+                        <div><b>Moderate-High:</b> 14.3 - 15.6</div>
+                        <div><b>Moderate:</b> 12.8 - 14.3</div>
+                        <div><b>Low-Moderate:</b> 10.5 - 12.8</div>
+                        <div><b>Low:</b> < 10.5</div>
+                    </div>
                 </div>
 
                 <button id="export-map" class="export-btn">Export</button>
@@ -86,9 +86,6 @@
                 <div class="legend-item">
                     <span class="icon-placeholder"><img src="./data/house.png" class="legend-icon"></span>
                     <span>Green Roofs</span>
-                </div>
-                <div class="legend-item">
-                    <span>Temperature Index Scale</span>
                 </div>
             </div>
         </div>

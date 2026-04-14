@@ -65,6 +65,33 @@
         </div>
     </div>
 
+    <div class="content-body2">
+            <div class="bottom-panel">
+                <div class="sidebar-label">Toggle Layers</div>
+                
+                <button id="btn-spaces" class="layer-btn">Green Spaces</button>
+                <button id="btn-streets" class="layer-btn">Green Streets</button>
+                <button id="btn-roofs" class="layer-btn">Green Roofs</button>
+                <button id="btn-heat" class="layer-btn">Heat Vulnerability </button>
+
+                <div class="temp-index-box">
+                    <form>
+                        <fieldset id="boundaryfieldset">
+                            <label class="option-label">Temperature Index</label>
+                            <select id="intensity-filter">
+                                <option value="all">All Intensities</option>
+                                <option value="high">High Intensity</option>
+                                <option value="moderate-high">Moderate-High Intensity</option>
+                                <option value="moderate">Moderate Intensity</option>
+                                <option value="low-moderate">Low-Moderate Intensity</option>
+                                <option value="low">Low Intensity</option>
+                            </select>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
     <script src="./scripts/config.js"></script>
     <script src="./scripts/script.js"></script>
