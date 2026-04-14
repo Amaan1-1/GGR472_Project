@@ -209,13 +209,13 @@ function fetchData(path, sourceId, layerId, icon, size) {
                     paint: {
                         'fill-color': [
                             'step',
-                            ['to-number', ['get', 'SUM_temper']],
+                            ['to-number', ['get', 'vuln_pc2']],
                             '#ffff00',
-                            10.483951,  '#ffb000',
-                            12.803808,  '#ff7f00',
-                            14.311111, '#ff3f00',
-                            15.589391, '#ff0000'
-                        ],
+                            -4.8, '#ffb000',
+                            -1.6, '#ff7f00',
+                            1.6, '#ff3f00',
+                            4.8, '#ff0000'
+                            ],
                         'fill-opacity': 0.7
                     }
                 });
@@ -277,28 +277,28 @@ function addIntensityFilter(map, selectId, layerId) {
         let filter = null;
 
         if(value === 'high') {
-            filter = ['>=', ['get', 'SUM_temper'], 15.589391];
+            filter = ['>=', ['get', 'vuln_pc2'], 15.589391];
         }
         else if(value === 'moderate-high') {
             filter = ['all',
-                ['>=', ['get', 'SUM_temper'], 14.311111],
-                ['<', ['get', 'SUM_temper'], 15.589391]
+                ['>=', ['get', 'vuln_pc2'], 14.311111],
+                ['<', ['get', 'vuln_pc2'], 15.589391]
             ];
         }
         else if(value === 'moderate'){
             filter = ['all',
-                ['>=', ['get', 'SUM_temper'], 12.803808],
-                ['<', ['get', 'SUM_temper'], 14.311111]
+                ['>=', ['get', 'vuln_pc2'], 12.803808],
+                ['<', ['get', 'vuln_pc2'], 14.311111]
             ];
         } 
         else if(value === 'low-moderate') {
             filter = ['all',
-                ['>=', ['get', 'SUM_temper'], 10.483951],
-                ['<', ['get', 'SUM_temper'], 12.803808]
+                ['>=', ['get', 'vuln_pc2'], 10.483951],
+                ['<', ['get', 'vuln_pc2'], 12.803808]
             ];
         }
         else if (value === 'low') {
-            filter = ['<', ['get', 'SUM_temper'], 10.483951];
+            filter = ['<', ['get', 'vuln_pc2'], 10.483951];
         }
 
         map.setFilter(layerId, filter);
