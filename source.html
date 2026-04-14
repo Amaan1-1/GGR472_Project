@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Interface</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+   <div class="app-wrapper">
+        <div class="header">
+            <div class="map-title">Spatial Analysis Tools</div>
+            <div id="geocoder" class="search-container"></div>
+            <nav class="navbar">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="analysis.html" class="nav-link active">Analysis</a>
+                <a href="sources.html" class="nav-link">Sources</a>
+            </nav>
+        </div>
+
+        <div class = "sources">
+            <div class "toronto">City of Toronto: Open Data</div>
+            <div class "toronto">Nasa Earthdata</div>
+
+
+        </div>
+
+
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
+    <script src="./scripts/config.js"></script>
+    <script src="./scripts/script.js"></script>
+    <script src="./scripts/functions.js"></script>
+</body>
+</html>
+
