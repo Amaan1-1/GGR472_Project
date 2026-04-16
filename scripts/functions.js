@@ -248,12 +248,6 @@ function fetchData(path, sourceId, layerId, icon, size) {
     
 }
 
-//src: https://docs.mapbox.com/mapbox-gl-js/api/map/#:~:text=getCanvas().toDataURL()%20.%20This%20is%20false%20by%20default%20as%20a%20performance&text=To%20load%20a%20style%20from%20the%20Mapbox,use%20a%20URL%20of%20the%20form%20mapbox
-function ExportMap(map){
-    const canvas = map.getCanvas().toDataURL('image/png');
-   
-}
-
 function reorderLayers(map){
     const order = [
         'heat-vulnerability-layer',
@@ -271,9 +265,11 @@ function reorderLayers(map){
     });
 }
 
+//This function helps filter the heat vulnerability layer based on the user's selection of intensity level.
+// It listens for changes on a dropdown menu and updates the map filter 
 function addIntensityFilter(map, selectId, layerId) {
     document.getElementById(selectId).addEventListener('change', (e) => {
-        const value = e.target.value;
+        const value = e.target.value; //value from dropdown menu
         let filter = null;
 
         const vuln = ['get', 'vuln_pc2'];
