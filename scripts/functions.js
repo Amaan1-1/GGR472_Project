@@ -209,7 +209,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
                     paint: {
                         'fill-color': [
                             'step',
-                            ['to-number', ['get', 'vuln_pc2']],
+                            ['get', 'vuln_pc2'],
                             '#ffff00',
                             -4.8, '#ffb000',
                             -1.6, '#ff7f00',
@@ -276,29 +276,31 @@ function addIntensityFilter(map, selectId, layerId) {
         const value = e.target.value;
         let filter = null;
 
-        if(value === 'high') {
-            filter = ['>=', ['get', 'vuln_pc2'], 15.589391];
-        }
-        else if(value === 'moderate-high') {
+        const vuln = ['get', 'vuln_pc2'];
+
+        if(value === 'high'){
+            filter = ['>=', vuln, 4.8];
+        } 
+        else if (value === 'moderate-high') {
             filter = ['all',
-                ['>=', ['get', 'vuln_pc2'], 14.311111],
-                ['<', ['get', 'vuln_pc2'], 15.589391]
-            ];
-        }
-        else if(value === 'moderate'){
-            filter = ['all',
-                ['>=', ['get', 'vuln_pc2'], 12.803808],
-                ['<', ['get', 'vuln_pc2'], 14.311111]
+                ['>=', vuln, 1.6],
+                ['<', vuln, 4.8]
             ];
         } 
-        else if(value === 'low-moderate') {
+        else if(value === 'moderate') {
             filter = ['all',
-                ['>=', ['get', 'vuln_pc2'], 10.483951],
-                ['<', ['get', 'vuln_pc2'], 12.803808]
+                ['>=', vuln, -1.6],
+                ['<', vuln, 1.6]
             ];
         }
+        else if (value === 'low-moderate') {
+            filter = ['all',
+                ['>=', vuln, -4.8],
+                ['<', vuln, -1.6]
+            ];
+        } 
         else if (value === 'low') {
-            filter = ['<', ['get', 'vuln_pc2'], 10.483951];
+            filter = ['<', vuln, -4.8];
         }
 
         map.setFilter(layerId, filter);

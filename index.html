@@ -19,8 +19,9 @@
             <div class="map-title">Mapping Urban Heat Islands & Green Infrastructure in Toronto</div>
             <div id="geocoder" class="search-container"></div>
             <nav class="navbar">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="sources.html" class="nav-link">Sources</a>
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="analysis.html" class="nav-link">Analysis</a>
+                <a href="source.html" class="nav-link">Sources</a>
             </nav>
         </div>
 
@@ -49,15 +50,13 @@
                     </form>
                     
                     <div class="temp-list" style="margin-top: 20px;">
-                        <div><b>High:</b> > 15.6</div>
-                        <div><b>Moderate-High:</b> 14.3 - 15.6</div>
-                        <div><b>Moderate:</b> 12.8 - 14.3</div>
-                        <div><b>Low-Moderate:</b> 10.5 - 12.8</div>
-                        <div><b>Low:</b> < 10.5</div>
+                        <div><b>High:</b> > 4.8</div>
+                        <div><b>Moderate-High:</b> 1.6 - 4.8</div>
+                        <div><b>Moderate:</b> -1.6 - 1.6</div>
+                        <div><b>Low-Moderate:</b> -4.8 - -1.6</div>
+                        <div><b>Low:</b> < -4.8</div>
                     </div>
                 </div>
-
-                <button id="export-map" class="export-btn">Export</button>
             </div>
 
             <div class="map-box">
@@ -67,7 +66,6 @@
 
                 <div class="map-controls">
                     <button id="reset-btn" class="ctrl-btn">Reset Map View</button>
-                    <button id="zoom-toggle" class="ctrl-btn">Zoom In/out</button>
                 </div>
             </div>
         </div>
