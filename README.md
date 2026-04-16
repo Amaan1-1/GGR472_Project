@@ -15,7 +15,7 @@ This project addresses heat vulnerability in Toronto by visualizing the relation
 
 | Feature | Description | Source |
 | :--- | :--- | :--- |
-| **Urban Heat Islands** | Average Heat Degree Day index (20°C threshold). | [NASA Earthdata / Toronto Degree 20](https://github.com/Moraine729/Toronto_Heat_Vulnerability/blob/main/input_data/exposure(degree_day_20).zip) |
+| **Heat Vulnerability** | Average Heat Degree Day index (20°C threshold). | [NASA Earthdata / Toronto Degree 20](https://github.com/Moraine729/Toronto_Heat_Vulnerability/blob/main/Results/pca_vuln_index.zip) |
 | **Green Streets** | Road-based infrastructure for rainwater and vegetation. | [City of Toronto Open Data](https://open.toronto.ca/dataset/green-streets/) |
 | **Green Roofs** | Building permits identifying residential/commercial green roofs. | [City of Toronto Open Data](https://open.toronto.ca/dataset/building-permits-green-roofs/) |
 | **Green Spaces** | Polygon geometries for parks, beaches, and open spaces. | [City of Toronto Open Data](https://open.toronto.ca/dataset/green-spaces/) |

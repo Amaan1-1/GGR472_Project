@@ -211,10 +211,10 @@ function fetchData(path, sourceId, layerId, icon, size) {
                             'step',
                             ['get', 'vuln_pc2'],
                             '#ffff00',
-                            -4.8, '#ffb000',
-                            -1.6, '#ff7f00',
-                            1.6, '#ff3f00',
-                            4.8, '#ff0000'
+                            -2.503528, '#ffb000',
+                            -0.852801, '#ff7f00',
+                            0.497898, '#ff3f00',
+                            2.020020, '#ff0000'
                             ],
                         'fill-opacity': 0.7
                     }
