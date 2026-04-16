@@ -338,7 +338,7 @@ function Buffer(btnId, long, lat){
                 "type": "fill",
                 "source": "buffgeojson",
                 "paint": {
-                    'fill-color': "white",
+                    'fill-color': '#ADD8E6',
                     'fill-opacity': 0.5,
                     'fill-outline-color': "black"
                 }
