@@ -17,25 +17,66 @@
 
    <div class="app-wrapper">
         <div class="header">
-            <div class="map-title">Spatial Analysis Tools</div>
+            <div class="map-title">Source Information</div>
             <div id="geocoder" class="search-container"></div>
             <nav class="navbar">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="analysis.html" class="nav-link">Analysis</a>
-                <a href="source.html" class="nav-link active">Sources</a>
+                <a href="analysis.html" class="nav-link active">Analysis</a>
+                <a href="source.html" class="nav-link">Source Information</a>
             </nav>
         </div>
 
-        <div class = "sources">
-            <div class "toronto">City of Toronto: Open Data</div>
-            <div class "toronto">Nasa Earthdata</div>
+    <div class="sources-wrapper">
+        <div class="source-box">
+            <h2>City of Toronto Open Data</h2>
+            <img src="data/Open_Data_Toronto.jpg" class="source-logo" alt="City of Toronto Open Data logo">
 
+            <a href="https://open.toronto.ca/dataset/green-streets/">Green Streets</a>
+            <p>This dataset depicts all public roads incorporating green infrastructure into their design. The 
+                main objective of green infrastructure is to curb the harmful environmental effects associated 
+                with extreme weather events, such as heavy rainfall and heatwaves. Green street projects 
+                particularly seeking to alleviate the urban heat island effect may use green infrastructure 
+                geared towards improving air quality and solar reflectivity,  including green walls, soil cells 
+                for street trees, photocatalytic paving, and cool pavements.  </p>
 
+            <a href="https://open.toronto.ca/dataset/building-permits-green-roofs/">Green Roofs</a>
+            <p>The green roofs dataset includes all structures containing green roofs and cool roofs. Green roofs
+                 consist of vegetated surfaces with various soil layers, while cool roofs instead utilize materials
+                  with high solar reflectivity and thermal emittance. Green roofs therefore have the additional 
+                  benefit of effectively regulating stormwater management. Overall, both green and cool roofs help 
+                  mitigate urban heat by reflecting larger amounts of sunlight, which further enhances cooling 
+                  efficiency and reduces energy costs for buildings city-wide. </p>
+
+            <a href="https://open.toronto.ca/dataset/green-spaces/">Green Spaces</a>
+            <p>The green spaces dataset provides the locations of parks and open spaces maintained by both the 
+                public and private sector. These areas include public parks, ravine corridors, cemeteries, and 
+                other vegetated spaces. In addition to their recreational and cultural functions, these green 
+                landscapes form a critical network that provides ecosystem benefits, including relief from extreme 
+                heat. </p>
         </div>
 
+        <div class="source-box">
+            <h2>School of Cities</h2>
+            <img src="Data/school_of_cities.jpg" class="source-logo" alt="School of Cities logo">
 
+            <a href="https://github.com/Moraine729/Toronto_Heat_Vulnerability/blob/main/Results/pca_vuln_index.zip/">Heat Vulnerability</a>
+            <p>The heat vulnerability map reveals the uneven spatial distribution of extreme heat impacts across 
+                the population of Toronto. At its core, heat vulnerability is the product of heat exposure, heat 
+                sensitivity and adaptive capacity. Heat exposure represents the cumulative metric of surface 
+                temperatures above 20°C over the 2010 - 2019 period, computed for each pixel. On the other hand, 
+                heat sensitivity and adaptive capacity influence the severity of heat exposure by either amplifying 
+                or reducing its impacts, respectively. Heat sensitivity examines contextual markers like tree canopy 
+                cover, impervious surfaces and population age while adaptive capacity considers the socioeconomic 
+                factors contributing to a household's ability to protect itself from the adverse effects of heat 
+                exposure. This dataset was obtained from the research project 
+                <a target="_blank" href="https://schoolofcities.github.io/heat-vulnerability-toronto/">
+                    Mapping Heat Vulnerability in Toronto</a>, conducted by the School of Cities, which aims to identify communities and neighborhoods that are 
+                disproportionately vulnerable to the effects of extreme heat.  </p>
+        </div>
+    </div>
 
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
+    <script src="./scripts/config.js"></script>
     <script src="./scripts/script.js"></script>
     <script src="./scripts/functions.js"></script>
 </body>
