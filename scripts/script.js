@@ -26,7 +26,7 @@ map.on('load', () => {
         },
         
         {
-            path: 'https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_streets.geojson',
+            path: './data/green_spaces.geojson',
             source: 'green-spaces',
             layer: 'green-spaces-layer',
             icon: 'Undefined',
@@ -36,7 +36,7 @@ map.on('load', () => {
         },
         
         {
-            path: './data/green_streets.geojson',
+            path: 'https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_streets.geojson',
             source: 'green-streets',
             layer: 'green-streets-layer',
             icon: 'signpost-icon',
