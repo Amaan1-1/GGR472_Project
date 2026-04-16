@@ -1,15 +1,7 @@
-let token = '__MAPBOX_TOKEN__';
-let style = '__MAPBOX_STYLE__';
-
-if (typeof MAPBOX_CONFIG !== 'undefined') {
-    token = MAPBOX_CONFIG.token;
-    style = MAPBOX_CONFIG.style;
-}
-
-mapboxgl.accessToken = token;
+mapboxgl.accessToken = 'pk.eyJ1Ijoia3RhbmRvcnkiLCJhIjoiY21rYmZhc2dqMDNqNzNlcHkwM2Z3cnAwMiJ9.GPIGSEiM53gRImZ-15RKkg';
 const map = new mapboxgl.Map({
     container: 'map',
-    style: style,
+    style: 'mapbox://styles/ktandory/cmmurs2ae004x01rx8zujb0kp',
     center: [-79.39, 43.65],
     zoom: 11,
     preserveDrawingBuffer: true
