@@ -22,7 +22,7 @@ body {
 
 .map-title {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .nav-container {
@@ -423,4 +423,53 @@ body {
 
 .content-body2 {
     margin-top: -140px;
+}
+
+.nav-link{
+    font-size: large;
+    font-weight: bold;
+
+}
+
+.sources-wrapper {
+    width: 90%;
+    margin: 30px auto;
+    display: flex;
+    gap: 20px;
+}
+
+.source-box {
+    flex: 1;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.source-box h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.source-logo {
+    display: block;
+    width: 250px;
+    margin: 0 auto 15px;
+}
+
+.source-box a {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.source-box p {
+    margin-bottom: 10px;
+}
+
+.source-box p a {
+    display: inline;
+    font-weight: bold;
 }
