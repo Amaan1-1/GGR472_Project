@@ -16,7 +16,7 @@ map.on('load', () => {
 
     const layers = [
         {
-            path: './data/green_roofs.geojson',
+            path: 'https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_roofs.geojson',
             source: 'green-roofs',
             layer: 'green-roofs-layer',
             icon: 'house-icon',
@@ -26,7 +26,7 @@ map.on('load', () => {
         },
         
         {
-            path: './data/green_spaces.geojson',
+            path: 'https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_streets.geojson',
             source: 'green-spaces',
             layer: 'green-spaces-layer',
             icon: 'Undefined',
