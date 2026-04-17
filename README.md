@@ -66,5 +66,3 @@ project-root/
 * **Map Controls:** Mapbox Geocoder for location searching and a reset function for the default Toronto extent.
 * **Layer Reordering:** Logic ensures point-based data and markers remain visible above polygon layers.
 
-```
-```
