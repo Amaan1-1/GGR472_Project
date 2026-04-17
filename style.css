@@ -16,11 +16,12 @@ body {
 
 .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .map-title {
+    flex: 1;
     font-weight: bold;
     font-size: 30px;
 }
@@ -303,6 +304,7 @@ body {
     display: flex;
     gap: 12px;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .nav-link {
