@@ -8,6 +8,7 @@ const map = new mapboxgl.Map({
 });
 
 map.on('load', () => {
+    //paths to each img
     const icons = [
         { name: 'tree-icon', url: './data/tree.png' },
         { name: 'house-icon', url: './data/house.png' },
