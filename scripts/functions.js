@@ -260,7 +260,9 @@ function reorderLayers(map){
         'green-spaces-layer',
         'green-spaces-layer-outline',
         'green-roofs-layer',
-        'green-streets-layer'
+        'green-streets-layer',
+        'route',
+        'input-pnts'
     ];
 
     order.forEach(layer => {
