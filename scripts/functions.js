@@ -69,6 +69,8 @@ function resetButton(map, button){
 
 }
 
+//toggle visibility for point layers 
+//for polygon layers, it must turn off both the fill and outline layers
 function UpdateVisibility(buttonId, label, map, LayerName){
     document.getElementById(buttonId).addEventListener('click', () => {
         const visibility = map.getLayoutProperty(label, 'visibility');
@@ -77,7 +79,7 @@ function UpdateVisibility(buttonId, label, map, LayerName){
         if (visibility !== "none") {
             map.setLayoutProperty(label, 'visibility', 'none');
 
-            if (map.getLayer(outlineId)) {
+            if(map.getLayer(outlineId)){
                 map.setLayoutProperty(outlineId, 'visibility', 'none');
             }
 
@@ -86,7 +88,7 @@ function UpdateVisibility(buttonId, label, map, LayerName){
         else {
             map.setLayoutProperty(label, 'visibility', 'visible');
 
-            if (map.getLayer(outlineId)) {
+            if(map.getLayer(outlineId)){
                 map.setLayoutProperty(outlineId, 'visibility', 'visible');
             }
 
@@ -169,6 +171,7 @@ function getDistance(){
 
 }
 
+//Function to fetch data, add source and layer to map and style based on layer type
 function fetchData(path, sourceId, layerId, icon, size) {
     fetch(path)
         .then(response => response.json())
@@ -248,6 +251,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
     
 }
 
+//setting up layers so point data goes on top
 function reorderLayers(map){
     const order = [
         'heat-vulnerability-layer',
@@ -313,45 +317,68 @@ function ClearPoints(){
     document.getElementById('distance-output').innerHTML = "0";
 }
 
+
+let count = 0; 
+let buffers = [];
+// Lets a user click a point and create a radius (buffer) around it using Turf.js.
+// The result is added as a new layer to visualize the selected area.
 function Buffer(btnId, long, lat){
     //wait for the user to click a point on the map then create a buffer at that point
     document.getElementById(btnId).addEventListener('click', () => { 
         map.once('click', (e) => {
             let distance = document.getElementById('buffer-dist');
-            let point = turf.point([long, lat]);
+            //if no coordinates were passed into the function then use the user's click location
+            let point;
             if(!long && !lat){
                 point = turf.point([e.lngLat.lng, e.lngLat.lat]);
             }
+            else{
+                point = turf.point([long, lat]);
+            }
             let buffresult = turf.buffer(point, distance.value/1000);
+            // Create multiple IDs so multiple buffers can exist at the same time
+            // by creating a new source and layer for each buffer and storing it in an array 
+            const sourceId = 'buffgeojson-' + count;
+            const layerId = 'inputpointbuff-' + count;
 
-            map.addSource('buffgeojson', {
-                "type": "geojson",
-                "data": buffresult 
-            });
+            //changing count after each time because it is global 
+            // so it will keep track whenever it changes
+            count++;
+
+            map.addSource(sourceId, {
+                type: "geojson",
+                data: buffresult
+                });
 
             map.addLayer({
-                "id": "inputpointbuff",
-                "type": "fill",
-                "source": "buffgeojson",
-                "paint": {
+                id: layerId,
+                type: "fill",
+                source: sourceId,
+                paint: {
                     'fill-color': '#ADD8E6',
                     'fill-opacity': 0.5,
                     'fill-outline-color': "black"
                 }
             });
 
+            //saving both to an array so we can know how to remove all buffers
+            buffers.push({sourceId, layerId});
+           
         });
     });
 }
 
+//removes buffers from map by cleaning out the array that stores the source and layer ids
+//and then removing the layers and sources from the map
 function clearBuffer(){
 
-    if(map.getLayer('inputpointbuff')){
-        map.removeLayer('inputpointbuff');
-    }
-
-    if(map.getSource('buffgeojson')){
-        map.removeSource('buffgeojson');
-    }
+    for(let i = 0; i < buffers.length; i++){
+        if(map.getLayer(buffers[i].layerId)){
+            map.removeLayer(buffers[i].layerId);
+        }
+        if(map.getSource(buffers[i].sourceId)){
+            map.removeSource(buffers[i].sourceId);
+        }
+  }
 }
 

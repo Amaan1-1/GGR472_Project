@@ -14,6 +14,7 @@ map.on('load', () => {
         { name: 'signpost-icon', url: './data/signpost.png' }
     ];
 
+    //for each layer, fetch the data, add the source and layer to the map, and add the popup and visibility functionality
     const layers = [
         {
             path: 'https://raw.githubusercontent.com/Amaan1-1/GGR472_Project/refs/heads/main/data/green_roofs.geojson',
@@ -56,7 +57,8 @@ map.on('load', () => {
     ];
 
     let loadedCount = 0;
-
+    //load all custom icons first, then initializes the map layers, popups
+    // and also add toggle for visibility of layers
     icons.forEach(icon => {
         map.loadImage(icon.url, (error, image) => {
             if(error){
