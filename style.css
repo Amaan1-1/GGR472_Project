@@ -470,3 +470,7 @@ body {
     display: inline;
     font-weight: bold;
 }
+
+.distance-input {
+  width: 90px;
+}
