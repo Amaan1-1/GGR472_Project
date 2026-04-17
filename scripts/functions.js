@@ -1,9 +1,8 @@
 function addPopup(map, layerId){
-    // Open popup when user clicks on a hex
+    // Open popup when user clicks on data point
     map.on('click', layerId, (e) => {
         console.log(e.features[0].properties["Common Name"]);
 
-        // Show popup with collision count and hex area on click
         if(layerId === "green-streets-layer"){
             new mapboxgl.Popup()
                 .setLngLat(e.lngLat)
@@ -47,7 +46,7 @@ function addPopup(map, layerId){
         map.setPaintProperty(layerId, 'fill-opacity', 0.6);
     });
 
-    // Add a hover effect by increasing opacity of all hexagons
+    // Add a hover effect by increasing opacity of layer
     map.on('mousemove', layerId, () => {
         map.setPaintProperty(layerId, 'fill-opacity', 0.9);
     });
@@ -111,7 +110,7 @@ function LatLngDisplay(map) {
     });
 }
 
-//Create a geojson to sore the 2 points
+//Create a geojson to store the 2 points
 let geojson = {
     'type': 'FeatureCollection',
     'features': []
@@ -125,7 +124,7 @@ setPoint("point2", 1, map);
 function setPoint(button, point, map){
     // Listen for the button click to start the point selection
     document.getElementById(button).addEventListener('click', () => {
-        // // Using map.once to capture only the next single click on the map
+        // Using map.once to get only the next single click on the map
         map.once('click', (e) => {
             // creating a new GeoJSON Feature object to store the coordinates of the user's click
             const clickedpoint = {
