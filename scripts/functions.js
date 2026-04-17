@@ -172,15 +172,16 @@ function getDistance(){
 
 //Function to fetch data, add source and layer to map and style based on layer type
 function fetchData(path, sourceId, layerId, icon, size) {
+    // Fetch GeoJSON data asynchronously from the path
     fetch(path)
         .then(response => response.json())
         .then(data => {
-
+            // Adds the dataset to the map as a source
             map.addSource(sourceId, {
                 type: 'geojson',
                 data: data
             });
-
+            // Displays the layer as filled polygon if the layer is green spaces
             if (layerId === 'green-spaces-layer') {
                 map.addLayer({
                     id: layerId,
@@ -191,7 +192,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
                         'fill-opacity': 0.5
                     }
                 });
-
+                // Adds outline to distinguish boundaries
                 map.addLayer({
                     id: layerId + '-outline',
                     type: 'line',
@@ -202,7 +203,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
                     }
                 });
             }
-
+            // Choropleth display of the layer if the layer is heat vulnerability
             else if(layerId === 'heat-vulnerability-layer') {
                 map.addLayer({
                     id: layerId,
@@ -221,7 +222,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
                         'fill-opacity': 0.7
                     }
                 });
-
+                // Adds outline to distinguish boundaries
                 map.addLayer({
                     id: layerId + '-outline',
                     type: 'line',
@@ -232,7 +233,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
                     }
                 });
             }
-
+            //Adds all other (point) layers as symbol layers
             else {
                 map.addLayer({
                     id: layerId,
@@ -245,6 +246,7 @@ function fetchData(path, sourceId, layerId, icon, size) {
                 });
                 map.moveLayer(layerId);
             }
+            // Ensures point layers sit above polygon layers
             reorderLayers(map);
         });
     
