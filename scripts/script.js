@@ -3,7 +3,7 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/ktandory/cmmurs2ae004x01rx8zujb0kp',
     center: [-79.39, 43.65],
-    zoom: 11,
+    zoom: 12.5,
     preserveDrawingBuffer: true
 });
 
