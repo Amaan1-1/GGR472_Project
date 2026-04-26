@@ -3,82 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map Interface</title>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.css' rel='stylesheet' />
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-
+    <title>Sources | Urban Heat Islands</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --accent: #10b981;
+            --dark: #0f172a;
+            --sidebar: #1e293b;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg: #f1f5f9;
+        }
 
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+        }
+
+        /* Header (Matching Analysis/Home) */
+        .header {
+            background: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.025em; }
+        .navbar { display: flex; gap: 1.5rem; }
+        .nav-link {
+            color: #94a3b8; text-decoration: none;
+            font-weight: 600; font-size: 0.9rem; transition: 0.2s;
+        }
+        .nav-link:hover, .nav-link.active { color: white; }
+
+        /* Layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            padding: 0 1.5rem;
+        }
+
+        /* Source Cards */
+        .sources-grid { display: flex; flex-direction: column; gap: 2rem; }
+        
+        .source-group-title {
+            font-size: 1.5rem; font-weight: 800; color: var(--dark);
+            margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;
+        }
+
+        .source-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .source-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .source-logo {
+            max-height: 50px;
+            width: auto;
+            border-radius: 0.5rem;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+        .source-card:hover .source-logo { filter: grayscale(0%); opacity: 1; }
+
+        .dataset-item {
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .dataset-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .dataset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .dataset-link:hover { text-decoration: underline; }
+        
+        .dataset-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Sidebar Insights */
+        .info-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .insight-card {
+            background: var(--dark);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+        }
+
+        .insight-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem; }
+        .insight-card p { font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0; }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .tag {
+            background: rgba(255,255,255,0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 992px) {
+            .main-container { grid-template-columns: 1fr; }
+            .info-sidebar { order: -1; }
+        }
+    </style>
+</head>
 <body>
 
-   <div class="app-wrapper">
-        <div class="header">
-            <div class="map-title">Source Information</div>
-            <div id="geocoder" class="search-container"></div>
-            <nav class="navbar">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="analysis.html" class="nav-link">Analysis</a>
-                <a href="source.html" class="nav-link active">Source Information</a>
-            </nav>
+    <header class="header">
+        <div class="map-title">Urban Heat Islands</div>
+        <nav class="navbar">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="analysis.html" class="nav-link">Analysis</a>
+            <a href="source.html" class="nav-link active">Source Information</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="sources-grid">
+            
+            <!-- Toronto Open Data Section -->
+            <div class="source-section">
+                <div class="source-group-title">
+                    <i class="bi bi-database-fill"></i> City of Toronto Open Data
+                </div>
+                <div class="source-card">
+                    <div class="source-header">
+                        <img src="data/Open_Data_Toronto.jpg" class="source-logo" alt="Toronto Logo">
+                    </div>
+
+                    <div class="dataset-item">
+                        <a href="https://open.toronto.ca/dataset/green-streets/" class="dataset-link" target="_blank">
+                            Green Streets <i class="bi bi-box-arrow-up-right small"></i>
+                        </a>
+                        <p class="dataset-desc">
+                            Depicts public roads incorporating green infrastructure. These projects utilize solar reflectivity, photocatalytic paving, and soil cells to improve air quality and reduce extreme rainfall impacts.
+                        </p>
+                    </div>
+
+                    <div class="dataset-item">
+                        <a href="https://open.toronto.ca/dataset/building-permits-green-roofs/" class="dataset-link" target="_blank">
+                            Green Roofs <i class="bi bi-box-arrow-up-right small"></i>
+                        </a>
+                        <p class="dataset-desc">
+                            Includes structures with vegetated surfaces or cool roof materials. These installations reflect sunlight and manage stormwater, significantly reducing building energy costs.
+                        </p>
+                    </div>
+
+                    <div class="dataset-item">
+                        <a href="https://open.toronto.ca/dataset/green-spaces/" class="dataset-link" target="_blank">
+                            Green Spaces <i class="bi bi-box-arrow-up-right small"></i>
+                        </a>
+                        <p class="dataset-desc">
+                            Locations of parks, ravines, and cemeteries. Beyond recreation, these areas provide critical ecosystem benefits and natural cooling relief.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- School of Cities Section -->
+            <div class="source-section">
+                <div class="source-group-title">
+                    <i class="bi bi-mortarboard-fill"></i> Academic Research
+                </div>
+                <div class="source-card">
+                    <div class="source-header">
+                        <img src="data/school_of_cities.jpg" class="source-logo" alt="UofT Logo">
+                    </div>
+
+                    <div class="dataset-item">
+                        <a href="https://schoolofcities.github.io/heat-vulnerability-toronto/" class="dataset-link" target="_blank">
+                            Heat Vulnerability Index <i class="bi bi-box-arrow-up-right small"></i>
+                        </a>
+                        <p class="dataset-desc">
+                            A comprehensive PCA-based index combining heat exposure (2010-2019), population sensitivity (age, canopy cover), and adaptive capacity. This dataset identifies neighborhoods disproportionately affected by rising temperatures.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    <div class="sources-wrapper">
-        <div class="source-box">
-            <h2>City of Toronto Open Data</h2>
-            <img src="data/Open_Data_Toronto.jpg" class="source-logo" alt="City of Toronto Open Data logo">
+        <!-- Sidebar Insights -->
+        <aside class="info-sidebar">
+            <div class="insight-card">
+                <h4><i class="bi bi-info-circle"></i> Data Usage</h4>
+                <p>These datasets are integrated using Mapbox GL JS and Turf.js to provide real-time spatial analysis and visualization of Toronto's environmental health.</p>
+                <div class="tag-cloud">
+                    <span class="tag">GeoJSON</span>
+                    <span class="tag">Open Data</span>
+                    <span class="tag">UHI</span>
+                    <span class="tag">Climate Action</span>
+                </div>
+            </div>
 
-            <a href="https://open.toronto.ca/dataset/green-streets/">Green Streets</a>
-            <p>This dataset depicts all public roads incorporating green infrastructure into their design. The 
-                main objective of green infrastructure is to curb the harmful environmental effects associated 
-                with extreme weather events, such as heavy rainfall and heatwaves. Green street projects 
-                particularly seeking to alleviate the urban heat island effect may use green infrastructure 
-                geared towards improving air quality and solar reflectivity,  including green walls, soil cells 
-                for street trees, photocatalytic paving, and cool pavements.  </p>
+            <div class="insight-card" style="background: var(--primary);">
+                <h4 style="color: white;"><i class="bi bi-lightning-charge"></i> Methodology</h4>
+                <p style="color: white; opacity: 0.9;">The Heat Vulnerability index uses standard deviation (z-scores) to rank regions from Low to High intensity based on decade-long thermal patterns.</p>
+            </div>
+        </aside>
+    </main>
 
-            <a href="https://open.toronto.ca/dataset/building-permits-green-roofs/">Green Roofs</a>
-            <p>The green roofs dataset includes all structures containing green roofs and cool roofs. Green roofs
-                 consist of vegetated surfaces with various soil layers, while cool roofs instead utilize materials
-                  with high solar reflectivity and thermal emittance. Green roofs therefore have the additional 
-                  benefit of effectively regulating stormwater management. Overall, both green and cool roofs help 
-                  mitigate urban heat by reflecting larger amounts of sunlight, which further enhances cooling 
-                  efficiency and reduces energy costs for buildings city-wide. </p>
-
-            <a href="https://open.toronto.ca/dataset/green-spaces/">Green Spaces</a>
-            <p>The green spaces dataset provides the locations of parks and open spaces maintained by both the 
-                public and private sector. These areas include public parks, ravine corridors, cemeteries, and 
-                other vegetated spaces. In addition to their recreational and cultural functions, these green 
-                landscapes form a critical network that provides ecosystem benefits, including relief from extreme 
-                heat. </p>
-        </div>
-
-        <div class="source-box">
-            <h2>School of Cities</h2>
-            <img src="data/school_of_cities.jpg" class="source-logo" alt="School of Cities logo">
-
-            <a href="https://github.com/Moraine729/Toronto_Heat_Vulnerability/blob/main/Results/pca_vuln_index.zip/">Heat Vulnerability</a>
-            <p>The heat vulnerability map reveals the uneven spatial distribution of extreme heat impacts across 
-                the population of Toronto. At its core, heat vulnerability is the product of heat exposure, heat 
-                sensitivity and adaptive capacity. Heat exposure represents the cumulative metric of surface 
-                temperatures above 20°C over the 2010 - 2019 period, computed for each pixel. On the other hand, 
-                heat sensitivity and adaptive capacity influence the severity of heat exposure by either amplifying 
-                or reducing its impacts, respectively. Heat sensitivity examines contextual markers like tree canopy 
-                cover, impervious surfaces and population age while adaptive capacity considers the socioeconomic 
-                factors contributing to a household's ability to protect itself from the adverse effects of heat 
-                exposure. This dataset was obtained from the research project 
-                <a target="_blank" href="https://schoolofcities.github.io/heat-vulnerability-toronto/">
-                    Mapping Heat Vulnerability in Toronto</a>, conducted by the School of Cities, which aims to identify communities and neighborhoods that are 
-                disproportionately vulnerable to the effects of extreme heat.  </p>
-        </div>
-    </div>
-
+    <!-- Scripts -->
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
-    <script src="./scripts/config.js"></script>
-    <script src="./scripts/script.js"></script>
-    <script src="./scripts/functions.js"></script>
 </body>
 </html>
-

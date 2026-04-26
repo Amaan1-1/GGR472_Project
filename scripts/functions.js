@@ -98,7 +98,7 @@ function UpdateVisibility(buttonId, label, map, LayerName){
 
 //Source https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
 //Show long and lat of mouse
-function LatLngDisplay(map) {
+function LatLngDisplay() {
 
     map.on('mousemove', (e) => {
         let coords = e.lngLat.wrap();  

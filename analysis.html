@@ -3,91 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis - Urban Heat Islands</title>
+    <title>Analysis | Urban Heat Islands</title>
     
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    
+    <!-- Mapbox & Turf -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.css' rel='stylesheet' />
     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
-    
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --sidebar: #1e293b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --bg: #f1f5f9;
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            overflow: hidden;
+        }
+
+        .app-wrapper { display: flex; flex-direction: column; height: 100vh; }
+
+        /* Header */
+        .header {
+            background: var(--dark);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .map-title { font-size: 1.1rem; font-weight: 700; }
+        .navbar { display: flex; gap: 1.5rem; }
+        .nav-link {
+            color: var(--text-muted); text-decoration: none;
+            font-weight: 600; font-size: 0.9rem; transition: 0.2s;
+        }
+        .nav-link:hover, .nav-link.active { color: white; }
+
+        /* Content Area */
+        .content-body { display: flex; flex: 1; overflow: hidden; position: relative; }
+
+        /* Sidebar */
+        .side-panel {
+            width: 320px; background: var(--sidebar);
+            padding: 1.5rem; display: flex; flex-direction: column;
+            gap: 1.5rem; overflow-y: auto; z-index: 90;
+        }
+
+        .sidebar-label {
+            color: var(--text-muted); text-transform: uppercase;
+            font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .analysis-box {
+            background: rgba(255,255,255,0.03);
+            padding: 1rem; border-radius: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Inputs & Buttons */
+        .option-label { color: var(--text-light); font-size: 0.8rem; margin-bottom: 0.5rem; display: block; }
+        
+        .buffer {
+            width: 100%; background: #0f172a; color: white;
+            border: 1px solid rgba(255,255,255,0.1); padding: 0.6rem;
+            border-radius: 0.4rem; font-size: 0.9rem; margin-bottom: 0.75rem;
+        }
+
+        .layer-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-light); padding: 0.6rem; border-radius: 0.5rem;
+            font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            width: 100%; transition: 0.2s; margin-bottom: 0.5rem;
+        }
+        .layer-btn:hover { background: rgba(255,255,255,0.1); }
+        .layer-btn.btn-clear { color: var(--danger); border-color: rgba(239, 68, 68, 0.2); }
+        .layer-btn.active { background: var(--primary); border-color: var(--primary); }
+
+        .result-display {
+            background: #0f172a; color: white; padding: 0.75rem;
+            border-radius: 0.5rem; font-weight: 700; font-size: 1.1rem;
+            margin-bottom: 1rem; border: 1px solid var(--primary);
+        }
+
+        /* Map */
+        .map-box { flex: 1; position: relative; }
+        .map-container { width: 100%; height: 100%; }
+
+        /* Floating Overlays */
+        .coordinate-box {
+            position: absolute; bottom: 1.5rem; left: 1.5rem;
+            background: var(--glass); backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.7rem;
+            font-weight: 700; z-index: 10;
+        }
+
+        .ctrl-btn {
+            background: var(--dark); color: white; border: none;
+            padding: 0.75rem 1.25rem; border-radius: 0.5rem;
+            font-weight: 700; cursor: pointer;
+        }
+
+        /* Bottom Controls Container */
+        .bottom-panel-container {
+            position: absolute; bottom: 1.5rem; right: 1.5rem;
+            display: flex; flex-direction: column; gap: 1rem; align-items: flex-end;
+        }
+
+        .bottom-panel {
+            background: var(--glass); backdrop-filter: blur(10px);
+            padding: 1rem; border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;
+            min-width: 280px;
+        }
+
+        .bottom-panel .layer-btn { 
+            margin-bottom: 0; color: var(--dark); 
+            border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.03); 
+        }
+
+        .bottom-panel .sidebar-label { grid-column: span 2; color: var(--dark); margin-top: 5px;}
+        
+        #intensity-filter {
+            grid-column: span 2; width: 100%; padding: 0.5rem;
+            border-radius: 0.4rem; border: 1px solid rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
 
     <div class="app-wrapper">
-        <div class="header">
+        <header class="header">
             <div class="map-title">Spatial Analysis Tools</div>
             <div id="geocoder" class="search-container"></div>
             <nav class="navbar">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="analysis.html" class="nav-link active">Analysis</a>
-                <a href="source.html" class="nav-link">Source Information</a>
+                <a href="source.html" class="nav-link">Source</a>
             </nav>
-        </div>
+        </header>
 
-        <div class="content-body">
-            <div class="side-panel">
-                <div class="sidebar-label">Buffer Analysis</div>
-                <div class="analysis-box">
-                    <label class="option-label">Buffer Distance (meters)</label>
-                    <input type="number" id="buffer-dist" class="buffer" value="500">
-                    <button id="btn-buffer" class="layer-btn">Create Buffer</button>
-                    <button id="clear-buffer" class="layer-btn btn-clear">Clear</button>
+        <main class="content-body">
+            <aside class="side-panel">
+                <div class="section">
+                    <div class="sidebar-label">Buffer Analysis</div>
+                    <div class="analysis-box">
+                        <label class="option-label">Distance (meters)</label>
+                        <input type="number" id="buffer-dist" class="buffer" value="500">
+                        <button id="btn-buffer" class="layer-btn active"><i class="bi bi-circle-uppercase"></i> Create Buffer</button>
+                        <button id="clear-buffer" class="layer-btn btn-clear">Clear All Buffers</button>
+                    </div>
                 </div>
- 
-                <div class="section-spacer"></div>
 
-                <div class="sidebar-label">Distance Measurement</div>
-                <div class="analysis-box">
-                    <div class="result-display d-flex justify-content-between">
-                        <span id="distance-output">0</span>
-                        <span class="text-muted">km</span>
-                    </div> 
-                    <button id="point1" class="layer-btn mb-2">Set Point 1</button>
-                    <button id="point2" class="layer-btn">Set Point 2</button>
-                    <button id="clear-points" class="layer-btn btn-clear">Clear Points</button>
+                <div class="section">
+                    <div class="sidebar-label">Distance Measurement</div>
+                    <div class="analysis-box">
+                        <div class="result-display d-flex justify-content-between align-items-center">
+                            <span id="distance-output">0</span>
+                            <small class="text-muted" style="font-size: 0.6rem;">KILOMETERS</small>
+                        </div> 
+                        <button id="point1" class="layer-btn"><i class="bi bi-geo-alt"></i> Set Point 1</button>
+                        <button id="point2" class="layer-btn"><i class="bi bi-geo-alt-fill"></i> Set Point 2</button>
+                        <button id="clear-points" class="layer-btn btn-clear">Clear Points</button>
+                    </div>
                 </div>
-            </div>
+            </aside>
 
-            <div class="map-box">
+            <section class="map-box">
                 <div id='map' class='map-container'></div>
-                <div id="coordinate-display" class="coordinate-box"></div>
+                <div id="coordinate-display" class="coordinate-box">0.00, 0.00</div>
 
-                <div class="map-controls">
-                    <button id="reset-btn" class="ctrl-btn">Reset Map View</button>
+                <div class="bottom-panel-container">
+                    <div class="bottom-panel">
+                        <div class="sidebar-label">Map Layers</div>
+                        <button id="btn-spaces" class="layer-btn">Spaces</button>
+                        <button id="btn-streets" class="layer-btn">Streets</button>
+                        <button id="btn-roofs" class="layer-btn">Roofs</button>
+                        <button id="btn-heat" class="layer-btn">Heat</button>
+                        <select id="intensity-filter">
+                            <option value="all">All Intensities</option>
+                            <option value="high">High</option>
+                            <option value="moderate-high">Mod-High</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="low-moderate">Low-Mod</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <button id="reset-btn" class="ctrl-btn">Reset View</button>
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
-
-    <div class="content-body2">
-            <div class="bottom-panel">
-                <div class="sidebar-label">Toggle Layers</div>
-                
-                <button id="btn-spaces" class="layer-btn">Green Spaces</button>
-                <button id="btn-streets" class="layer-btn">Green Streets</button>
-                <button id="btn-roofs" class="layer-btn">Green Roofs</button>
-                <button id="btn-heat" class="layer-btn">Heat Vulnerability </button>
-
-                <div class="temp-index-box">
-                    <form>
-                        <fieldset id="boundaryfieldset">
-                            <label class="option-label">Temperature Index</label>
-                            <select id="intensity-filter">
-                                <option value="all">All Intensities</option>
-                                <option value="high">High Intensity</option>
-                                <option value="moderate-high">Moderate-High Intensity</option>
-                                <option value="moderate">Moderate Intensity</option>
-                                <option value="low-moderate">Low-Moderate Intensity</option>
-                                <option value="low">Low Intensity</option>
-                            </select>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-        </div>
 
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
     <script src="./scripts/script.js"></script>

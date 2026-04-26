@@ -90,7 +90,7 @@ map.on('load', () => {
     resetButton(map, 'reset-btn');
 
     if (document.getElementById('coordinate-display')) {
-        LatLngDisplay(map);
+        LatLngDisplay();
     }
 
     if (document.getElementById('intensity-filter')) {
